@@ -19,13 +19,15 @@ class _OurSignUpFormState extends State<OurSignUpForm> {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     //since we don't listen to anything. we don't actually change uid based on that
     try {
-      if (await _currentUser.signUpUser(email, password)) {
+      String _returnString;
+      _returnString = await _currentUser.signUpUser(email, password);
+      if (_returnString == "success") {
         //if able to signyp user
         Navigator.pop(context);
       } else {
         Scaffold.of(context).showSnackBar(
           SnackBar(
-            content: Text("Password do not match"),
+            content: Text(_returnString),
             duration: Duration(seconds: 2),
           ),
         );

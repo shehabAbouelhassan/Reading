@@ -1,4 +1,4 @@
-import 'package:Reading_Corner/screens/login/login.dart';
+import 'package:Reading_Corner/screens/root/root.dart';
 import 'package:Reading_Corner/states/currentUser.dart';
 import 'package:Reading_Corner/utilis/OurTheme.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: OurTheme().buildTheme(),
-        home: OurLogin(),
+        home: OurRoot(),
       ),
     );
   }

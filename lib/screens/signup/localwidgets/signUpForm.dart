@@ -15,12 +15,13 @@ class _OurSignUpFormState extends State<OurSignUpForm> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
 
-  void _signUpUser(String email, String password, BuildContext context) async {
+  void _signUpUser(String email, String password, BuildContext context,
+      String fullName) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     //since we don't listen to anything. we don't actually change uid based on that
     try {
       String _returnString;
-      _returnString = await _currentUser.signUpUser(email, password);
+      _returnString = await _currentUser.signUpUser(email, password, fullName);
       if (_returnString == "success") {
         //if able to signyp user
         Navigator.pop(context);
@@ -103,8 +104,8 @@ class _OurSignUpFormState extends State<OurSignUpForm> {
             onPressed: () {
               //check if password = Confirmpassword
               if (_passwordController.text == _confirmPasswordController.text) {
-                _signUpUser(
-                    _emailController.text, _passwordController.text, context);
+                _signUpUser(_emailController.text, _passwordController.text,
+                    context, _fullNameController.text);
               } else {
                 Scaffold.of(context).showSnackBar(
                   SnackBar(

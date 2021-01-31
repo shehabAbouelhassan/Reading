@@ -19,6 +19,7 @@ class _OurSignUpFormState extends State<OurSignUpForm> {
       String fullName) async {
     CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     //since we don't listen to anything. we don't actually change uid based on that
+
     try {
       String _returnString;
       _returnString = await _currentUser.signUpUser(email, password, fullName);

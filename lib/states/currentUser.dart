@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class CurrentUser extends ChangeNotifier {
-  OurUser _currentUser = OurUser();
+  OurUser _currentUser = OurUser(); //userState //provifding user info
 
   //accissive properties
 

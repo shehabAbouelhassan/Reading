@@ -1,4 +1,5 @@
 //this service will interacte with firestore exclusivly whatever database we have
+
 import 'package:Reading_Corner/models/user.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -24,12 +25,14 @@ class OurDatabase {
   Future<OurUser> getUserInfo(String uid) async {
     OurUser retVal = OurUser();
     try {
+      //reciveing document from firebase includeing user info
       DocumentSnapshot _docSnapshot =
           await _firestore.collection("users").document(uid).get();
       retVal.uid = uid;
       retVal.fullName = _docSnapshot.data["fullName"];
       retVal.email = _docSnapshot.data["email"];
       retVal.accountCreated = _docSnapshot.data["accountCreated"];
+      retVal.groupId = _docSnapshot['groupId'];
     } catch (e) {
       print(e);
     }

@@ -1,4 +1,4 @@
-import 'package:Reading_Corner/screens/home/home.dart';
+import 'package:Reading_Corner/screens/root/root.dart';
 import 'package:Reading_Corner/screens/signup/signup.dart';
 import 'package:Reading_Corner/states/currentUser.dart';
 import 'package:Reading_Corner/widgets/OurContainer.dart';
@@ -44,7 +44,7 @@ class _OurLoginFormState extends State<OurLoginForm> {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
-            builder: (context) => HomeScreen(),
+            builder: (context) => OurRoot(),
           ),
           (route) => false,
         );

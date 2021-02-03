@@ -1,11 +1,18 @@
 import 'package:Reading_Corner/screens/home/home.dart';
 import 'package:Reading_Corner/screens/login/login.dart';
+import 'package:Reading_Corner/screens/noGroup/noGroup.dart';
+import 'package:Reading_Corner/screens/splashScreen/splashScreen.dart';
+import 'package:Reading_Corner/states/currentGroup.dart';
+import 'package:Reading_Corner/states/currentUser.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 enum AuthStatus {
+  unknown,
   notLoggedIn,
-  loggedIn,
+  notInGroup,
+  inGroup,
 }
 
 class OurRoot extends StatefulWidget {
@@ -14,22 +21,49 @@ class OurRoot extends StatefulWidget {
 }
 
 class _OurRootState extends State<OurRoot> {
-  AuthStatus _authStatus = AuthStatus.notLoggedIn;
+  AuthStatus _authStatus = AuthStatus.unknown;
   @override
   void didChangeDependencies() async {
     super.didChangeDependencies();
     //get the state , check current user, set AuthStatus based on whatever/state
+
+    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+    String _returnString = await _currentUser.onStartUp();
+    if (_returnString == "success") {
+      if (_currentUser.getCurrentUser.groupId != null) {
+        setState(() {
+          _authStatus = AuthStatus.inGroup;
+        });
+      } else {
+        setState(() {
+          _authStatus = AuthStatus.notInGroup;
+        });
+      }
+    } else {
+      setState(() {
+        _authStatus = AuthStatus.notLoggedIn;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     Widget retVal;
     switch (_authStatus) {
+      case AuthStatus.unknown:
+        retVal = OurSplashScreen();
+        break;
       case AuthStatus.notLoggedIn:
         retVal = OurLogin();
         break;
-      case AuthStatus.loggedIn:
-        retVal = HomeScreen();
+      case AuthStatus.notInGroup:
+        retVal = OurNoGroup();
+        break;
+      case AuthStatus.inGroup:
+        retVal = ChangeNotifierProvider(
+          create: (context) => CurrentGroup(),
+          child: HomeScreen(),
+        );
         break;
       default:
     }

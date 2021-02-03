@@ -1,4 +1,5 @@
 import 'package:Reading_Corner/main.dart';
+import 'package:Reading_Corner/screens/addBook/addBook.dart';
 import 'package:Reading_Corner/screens/login/localwidgets/loginForm.dart';
 import 'package:Reading_Corner/screens/login/login.dart';
 import 'package:Reading_Corner/screens/noGroup/noGroup.dart';
@@ -25,10 +26,13 @@ class _HomeScreenState extends State<HomeScreen> {
     _currentGroup.updateStateFromDatabase(_currentUser.getCurrentUser.groupId);
   }
 
-  void _goToNoGroup(BuildContext context) {
+  void _goToAddBook(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => OurNoGroup()),
+      MaterialPageRoute(
+          builder: (context) => OurAddBook(
+                onGroupCreation: false,
+              )),
     );
   }
 
@@ -136,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: Colors.white,
                 ),
               ),
-              onPressed: () => _goToNoGroup(context),
+              onPressed: () => _goToAddBook(context),
             ),
           ),
           Padding(

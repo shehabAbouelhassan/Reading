@@ -90,12 +90,12 @@ class _OurAddBookState extends State<OurAddBook> {
                     ),
                   ),
                   TextFormField(
+                    keyboardType: TextInputType.number,
                     controller: _lengthController,
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.label),
                       hintText: "Length",
                     ),
-                    keyboardType: TextInputType.number,
                   ),
                   Text(_selectedDate.toString()),
                   FlatButton(

@@ -1,10 +1,14 @@
+import 'dart:async';
+
 import 'package:Reading_Corner/main.dart';
 import 'package:Reading_Corner/screens/addBook/addBook.dart';
 import 'package:Reading_Corner/screens/login/localwidgets/loginForm.dart';
 import 'package:Reading_Corner/screens/login/login.dart';
 import 'package:Reading_Corner/screens/noGroup/noGroup.dart';
+import 'package:Reading_Corner/screens/review/review.dart';
 import 'package:Reading_Corner/states/currentGroup.dart';
 import 'package:Reading_Corner/states/currentUser.dart';
+import 'package:Reading_Corner/utilis/timeLeft.dart';
 import 'package:Reading_Corner/widgets/OurContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +19,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<String> _timeUntil = List(2); //[0] Timeuntill book is due
+  //[0] Timeuntill next book
+  Timer _timer;
+  void _startTimer(CurrentGroup currentGroup) {
+    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+      setState(() {
+        _timeUntil = OurTimeLeft().timeLeft(currentGroup
+            .getCurrentGroup.currentBookDue
+            .toDate()); //function that we're calling here
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -23,7 +40,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
     CurrentGroup _currentGroup =
         Provider.of<CurrentGroup>(context, listen: false);
-    _currentGroup.updateStateFromDatabase(_currentUser.getCurrentUser.groupId);
+    _currentGroup.updateStateFromDatabase(
+        _currentUser.getCurrentUser.groupId, _currentUser.getCurrentUser.uid);
+    _startTimer(_currentGroup);
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
   }
 
   void _goToAddBook(BuildContext context) {
@@ -33,6 +58,19 @@ class _HomeScreenState extends State<HomeScreen> {
           builder: (context) => OurAddBook(
                 onGroupCreation: false,
               )),
+    );
+  }
+
+  void _goToReview() {
+    CurrentGroup _currentGroup =
+        Provider.of<CurrentGroup>(context, listen: false);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => OurReview(
+          currentGroup: _currentGroup,
+        ),
+      ),
     );
   }
 
@@ -80,11 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Expanded(
                               child: Text(
-                                (value.getCurrentGroup.currentBookDue != null)
-                                    ? value.getCurrentGroup.currentBookDue
-                                        .toDate()
-                                        .toString()
-                                    : "Loading..",
+                                _timeUntil[0] ?? "loading..",
                                 style: TextStyle(
                                   fontSize: 30.0,
                                   fontWeight: FontWeight.bold,
@@ -99,7 +133,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           "Finished Book",
                           style: TextStyle(color: Colors.white),
                         ),
-                        onPressed: () {},
+                        onPressed:
+                            value.getDoneWithCurrentBook ? null : _goToReview,
                       )
                     ],
                   );
@@ -112,14 +147,15 @@ class _HomeScreenState extends State<HomeScreen> {
             child: OurContainer(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
-                child: Column(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     Text(
-                      "Next Book queued In:",
+                      "Next Book \nqueued In:",
                       style: TextStyle(fontSize: 30, color: Colors.grey[600]),
                     ),
                     Text(
-                      "14 Days",
+                      _timeUntil[1] ?? "loading",
                       style: TextStyle(
                         fontSize: 30.0,
                         fontWeight: FontWeight.bold,

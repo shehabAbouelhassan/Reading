@@ -1,57 +1,47 @@
-import 'dart:async';
-
-import 'package:Reading_Corner/main.dart';
-import 'package:Reading_Corner/screens/addBook/addBook.dart';
-import 'package:Reading_Corner/screens/login/localwidgets/loginForm.dart';
-import 'package:Reading_Corner/screens/login/login.dart';
-import 'package:Reading_Corner/screens/noGroup/noGroup.dart';
-import 'package:Reading_Corner/screens/review/review.dart';
-import 'package:Reading_Corner/states/currentGroup.dart';
-import 'package:Reading_Corner/states/currentUser.dart';
-import 'package:Reading_Corner/utilis/timeLeft.dart';
-import 'package:Reading_Corner/widgets/OurContainer.dart';
+import 'package:Reading_Corner/screens/root/root.dart';
+import 'package:Reading_Corner/services/auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
-class HomeScreen extends StatefulWidget {
+class InGroup extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _InGroupState createState() => _InGroupState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
-  List<String> _timeUntil = List(2); //[0] Timeuntill book is due
-  //[0] Timeuntill next book
-  Timer _timer;
-  void _startTimer(CurrentGroup currentGroup) {
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
-      setState(() {
-        _timeUntil = OurTimeLeft().timeLeft(currentGroup
-            .getCurrentGroup.currentBookDue
-            .toDate()); //function that we're calling here
-      });
-    });
-  }
+class _InGroupState extends State<InGroup> {
+  //
+  // List<String> _timeUntil = List(2); //[0] Timeuntill book is due
+  // //[0] Timeuntill next book
+  // Timer _timer;
+  // void _startTimer(CurrentGroup currentGroup) {
+  //   _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+  //     setState(() {
+  //       _timeUntil = OurTimeLeft().timeLeft(currentGroup
+  //           .getCurrentGroup.currentBookDue
+  //           .toDate()); //function that we're calling here
+  //     });
+  //   });
+  // }
 
   @override
   void initState() {
     super.initState();
 
-    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
-
-    CurrentGroup _currentGroup =
-        Provider.of<CurrentGroup>(context, listen: false);
-    _currentGroup.updateStateFromDatabase(
-        _currentUser.getCurrentUser.groupId, _currentUser.getCurrentUser.uid);
-    _startTimer(_currentGroup);
+    // CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+//
+    //  CurrentGroup _currentGroup =
+    //    Provider.of<CurrentGroup>(context, listen: false);
+    //currentGroup.updateStateFromDatabase(
+    //_currentUser.getCurrentUser.groupId, _currentUser.getCurrentUser.uid);
+    //_startTimer(_currentGroup);
   }
 
   @override
   void dispose() {
-    _timer.cancel();
+    // _timer.cancel();
     super.dispose();
   }
 
-  void _goToAddBook(BuildContext context) {
+  /* void _goToAddBook(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
@@ -59,9 +49,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 onGroupCreation: false,
               )),
     );
-  }
+  }*/
 
-  void _goToReview() {
+  /*void _goToReview() {
     CurrentGroup _currentGroup =
         Provider.of<CurrentGroup>(context, listen: false);
     Navigator.push(
@@ -73,15 +63,15 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
+*/
 
   void _signOut(BuildContext context) async {
-    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
-    String _returnString = await _currentUser.signOut();
+    String _returnString = await Auth().signOut();
     if (_returnString == "success") {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => OurLogin(),
+          builder: (context) => OurRoot(),
         ),
         (route) => false,
       );
@@ -91,7 +81,15 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView(
+      appBar: AppBar(
+          title: RaisedButton(
+        child: Text("signOut"),
+        onPressed: () => _signOut(context),
+      )),
+      body: Center(
+        child: Text("sign out "),
+      ),
+      /*ListView(
         children: <Widget>[
           SizedBox(
             height: 40.0,
@@ -194,6 +192,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+      */
     );
   }
 }

@@ -1,15 +1,15 @@
-import 'package:Reading_Corner/states/currentUser.dart';
-import 'package:Reading_Corner/widgets/OurContainer.dart';
+import 'package:Reading_Corner/services/auth.dart';
+import 'package:Reading_Corner/widgets/ShadowContainer.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class OurSignUpForm extends StatefulWidget {
+class SignUpForm extends StatefulWidget {
   //changing to statfullWidget now as we gonna have textEditors Contollers!!
   @override
-  _OurSignUpFormState createState() => _OurSignUpFormState();
+  _SignUpFormState createState() => _SignUpFormState();
 }
 
-class _OurSignUpFormState extends State<OurSignUpForm> {
+class _SignUpFormState extends State<SignUpForm> {
   TextEditingController _fullNameController = TextEditingController();
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -17,12 +17,11 @@ class _OurSignUpFormState extends State<OurSignUpForm> {
 
   void _signUpUser(String email, String password, BuildContext context,
       String fullName) async {
-    CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
     //since we don't listen to anything. we don't actually change uid based on that
 
     try {
       String _returnString;
-      _returnString = await _currentUser.signUpUser(email, password, fullName);
+      _returnString = await Auth().signUpUser(email, password, fullName);
       if (_returnString == "success") {
         //if able to signyp user
         Navigator.pop(context);
@@ -41,7 +40,7 @@ class _OurSignUpFormState extends State<OurSignUpForm> {
 
   @override
   Widget build(BuildContext context) {
-    return OurContainer(
+    return ShadowContainer(
       child: Column(
         children: <Widget>[
           Padding(

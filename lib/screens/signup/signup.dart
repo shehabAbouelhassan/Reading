@@ -1,8 +1,7 @@
-import 'package:Reading_Corner/screens/login/localwidgets/loginForm.dart';
-import 'package:Reading_Corner/screens/signup/localwidgets/signUpForm.dart';
+import 'package:Reading_Corner/screens/signUp/local_widget/signUpForm.dart';
 import 'package:flutter/material.dart';
 
-class OurSignUp extends StatelessWidget {
+class SignUp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +21,7 @@ class OurSignUp extends StatelessWidget {
                 SizedBox(
                   height: 40.0,
                 ),
-                OurSignUpForm(),
+                SignUpForm(),
               ],
             ),
           )

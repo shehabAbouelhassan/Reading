@@ -1,7 +1,8 @@
-import 'package:Reading_Corner/screens/login/localwidgets/loginForm.dart';
 import 'package:flutter/material.dart';
 
-class OurLogin extends StatelessWidget {
+import 'localwidgets/loginForm.dart';
+
+class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +20,7 @@ class OurLogin extends StatelessWidget {
                 SizedBox(
                   height: 20.0,
                 ),
-                OurLoginForm(),
+                LoginForm(),
               ],
             ),
           )

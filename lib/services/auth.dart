@@ -54,7 +54,7 @@ class Auth {
     String retval = "error";
 
     try {
-      AuthResult _authResult = await _auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
       {
         //  String _returnString = await OurDatabase().creatUser(_user);

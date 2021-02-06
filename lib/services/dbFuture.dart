@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:Reading_Corner/models/userModel.dart';
 import 'package:Reading_Corner/models/bookModel.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 
 class DBFuture {
   Firestore _firestore = Firestore.instance;
@@ -14,7 +15,7 @@ class DBFuture {
 
     try {
       members.add(user.uid);
-      tokens.add(user.notifToken);
+      //   tokens.add(user.notifToken);
       DocumentReference _docRef;
       if (user.notifToken != null) {
         _docRef = await _firestore.collection("groups").add({
@@ -58,7 +59,7 @@ class DBFuture {
     List<String> tokens = List();
     try {
       members.add(userModel.uid);
-      tokens.add(userModel.notifToken);
+      //  tokens.add(userModel.notifToken);
       await _firestore.collection("groups").document(groupId).updateData({
         'members': FieldValue.arrayUnion(members),
         'tokens': FieldValue.arrayUnion(tokens),
@@ -79,7 +80,7 @@ class DBFuture {
     return retVal;
   }
 
-  Future<String> leaveGroup(String groupId, UserModel userModel) async {
+  /* Future<String> leaveGroup(String groupId, UserModel userModel) async {
     String retVal = "error";
     List<String> members = List();
     List<String> tokens = List();
@@ -99,7 +100,7 @@ class DBFuture {
     }
 
     return retVal;
-  }
+  }*/
 
   Future<String> addBook(String groupId, BookModel book) async {
     String retVal = "error";
@@ -274,7 +275,7 @@ class DBFuture {
         'fullName': user.fullName.trim(),
         'email': user.email.trim(),
         'accountCreated': Timestamp.now(),
-        'notifToken': user.notifToken,
+        //  'notifToken': user.notifToken,
       });
       retVal = "success";
     } catch (e) {
@@ -336,7 +337,7 @@ class DBFuture {
     return retVal;
   }
 
-  Future<List<ReviewModel>> getReviewHistory(
+  /* Future<List<ReviewModel>> getReviewHistory(
       String groupId, String bookId) async {
     List<ReviewModel> retVal = List();
 
@@ -357,4 +358,5 @@ class DBFuture {
     }
     return retVal;
   }
+  */
 }

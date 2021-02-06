@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:Reading_Corner/models/userModel.dart';
+import 'package:Reading_Corner/services/dbFuture.dart';
+import 'package:Reading_Corner/widgets/ShadowContainer.dart';
+import 'package:Reading_Corner/screens/root/root.dart';
 
 class JoinGroup extends StatefulWidget {
   final UserModel userModel;

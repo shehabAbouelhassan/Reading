@@ -1,26 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:Reading_Corner/screens/createGroup/createGroup.dart';
+import 'package:Reading_Corner/screens/joinGroup/joinGroup.dart';
 
 class NoGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     void _goToJoin(BuildContext context) {
-      /* Navigator.push(
+      Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => OurJoinGroup(),
+          builder: (context) => JoinGroup(),
         ),
       );
-      */
     }
 
     void _goToCreate(BuildContext context) {
-      /*Navigator.push(
+      Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => OurCreateGroup(),
+          builder: (context) => CreateGroup(),
         ),
       );
-      */
     }
 
     return Scaffold(

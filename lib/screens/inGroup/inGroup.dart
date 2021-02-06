@@ -1,6 +1,11 @@
+import 'package:Reading_Corner/models/userModel.dart';
+import 'package:Reading_Corner/screens/addBook/addBook.dart';
 import 'package:Reading_Corner/screens/root/root.dart';
 import 'package:Reading_Corner/services/auth.dart';
+import 'package:Reading_Corner/widgets/ShadowContainer.dart';
 import 'package:flutter/material.dart';
+import 'package:Reading_Corner/models/groupModel.dart';
+import 'package:provider/provider.dart';
 
 class InGroup extends StatefulWidget {
   @override
@@ -8,8 +13,9 @@ class InGroup extends StatefulWidget {
 }
 
 class _InGroupState extends State<InGroup> {
-  //
-  // List<String> _timeUntil = List(2); //[0] Timeuntill book is due
+  GroupModel _groupModel;
+  UserModel _userModel;
+  List<String> _timeUntil = List(2); //[0] Timeuntill book is due
   // //[0] Timeuntill next book
   // Timer _timer;
   // void _startTimer(CurrentGroup currentGroup) {
@@ -26,7 +32,9 @@ class _InGroupState extends State<InGroup> {
   void initState() {
     super.initState();
 
-    // CurrentUser _currentUser = Provider.of<CurrentUser>(context, listen: false);
+    UserModel _userModel = Provider.of<UserModel>(
+      context,
+    );
 //
     //  CurrentGroup _currentGroup =
     //    Provider.of<CurrentGroup>(context, listen: false);
@@ -41,15 +49,16 @@ class _InGroupState extends State<InGroup> {
     super.dispose();
   }
 
-  /* void _goToAddBook(BuildContext context) {
+  void _goToAddBook(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(
           builder: (context) => OurAddBook(
                 onGroupCreation: false,
+                currentUser: _userModel,
               )),
     );
-  }*/
+  }
 
   /*void _goToReview() {
     CurrentGroup _currentGroup =
@@ -81,28 +90,20 @@ class _InGroupState extends State<InGroup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-          title: RaisedButton(
-        child: Text("signOut"),
-        onPressed: () => _signOut(context),
-      )),
-      body: Center(
-        child: Text("sign out "),
-      ),
-      /*ListView(
+      body: ListView(
         children: <Widget>[
           SizedBox(
             height: 40.0,
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: OurContainer(
-              child: Consumer<CurrentGroup>(
+            child: ShadowContainer(
+              child: Consumer<GroupModel>(
                 builder: (BuildContext context, value, Widget child) {
                   return Column(
                     children: <Widget>[
                       Text(
-                        value.getCurrentBook.name ?? "loading..",
+                        value.currentBookId ?? "loading..",
                         style: TextStyle(fontSize: 30, color: Colors.grey[600]),
                       ),
                       Padding(
@@ -131,8 +132,8 @@ class _InGroupState extends State<InGroup> {
                           "Finished Book",
                           style: TextStyle(color: Colors.white),
                         ),
-                        onPressed:
-                            value.getDoneWithCurrentBook ? null : _goToReview,
+                        onPressed: () {},
+                        //value..getDoneWithCurrentBook ? null : _goToReview
                       )
                     ],
                   );
@@ -142,7 +143,7 @@ class _InGroupState extends State<InGroup> {
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: OurContainer(
+            child: ShadowContainer(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 20.0),
                 child: Row(
@@ -192,7 +193,6 @@ class _InGroupState extends State<InGroup> {
           ),
         ],
       ),
-      */
     );
   }
 }

@@ -7,6 +7,7 @@ import 'package:Reading_Corner/screens/splashScreen/splashScreen.dart';
 import 'package:Reading_Corner/services/dbStream.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:Reading_Corner/models/groupModel.dart';
 
 enum AuthStatus {
   unknown,
@@ -70,7 +71,10 @@ class LoggedIn extends StatelessWidget {
     Widget retVal;
     if (_userStream != null) {
       if (_userStream.groupId != null) {
-        retVal = InGroup();
+        retVal = StreamProvider<GroupModel>.value(
+          value: DBStream().getCurrentGroup(_userStream.groupId),
+          child: InGroup(),
+        );
       } else {
         retVal = NoGroup();
       }

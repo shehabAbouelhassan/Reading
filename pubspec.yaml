@@ -33,6 +33,8 @@ dependencies:
   intl: ^0.16.1
   numberpicker: ^1.3.0
   provider: ^4.3.3
+  awesome_notifications: ^0.0.5+5
+
 
 dev_dependencies:
   flutter_test:
